@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/academy?allowPublicKeyRetrieval=true&useSSL=false
+    url: jdbc:mysql://localhost:3306/eongaz?allowPublicKeyRetrieval=true&useSSL=false
     username: root
     password: root
 
@@ -9,3 +9,4 @@ spring:
       ddl-auto: update
 
 repository-type: JPA
+create-seed: TRUE
