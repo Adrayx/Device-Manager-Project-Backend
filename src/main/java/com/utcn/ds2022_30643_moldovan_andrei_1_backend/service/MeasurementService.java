@@ -24,13 +24,11 @@ public class MeasurementService {
 
     @Transactional
     public List<MeasurementDto> findAll(){
-        System.out.println(factory.createMeasurementRepository().findAll());
         return factory.createMeasurementRepository().findAll().stream().map(MeasurementDto::measurementDtoFromMeasurement).collect(Collectors.toList());
     }
 
     @Transactional
     public List<MeasurementDto> findByDeviceId(Integer id){
-        System.out.println(factory.createMeasurementRepository().findAll());
         return factory.createMeasurementRepository().findByDevice(factory.createEnergyDeviceRepository().findById(id).orElseThrow()).stream().map(MeasurementDto::measurementDtoFromMeasurement).collect(Collectors.toList());
     }
 

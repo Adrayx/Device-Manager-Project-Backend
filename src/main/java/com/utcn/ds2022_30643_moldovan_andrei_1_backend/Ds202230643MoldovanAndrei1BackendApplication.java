@@ -8,7 +8,6 @@ import java.util.Arrays;
 @SpringBootApplication
 public class Ds202230643MoldovanAndrei1BackendApplication {
     public static Integer create_seed = 0;
-
     public static void main(String[] args) {
         if(Arrays.asList(args).contains("CREATE_SEED")){
             create_seed = 1;

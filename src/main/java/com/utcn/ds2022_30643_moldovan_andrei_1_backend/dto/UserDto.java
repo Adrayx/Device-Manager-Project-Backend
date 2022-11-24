@@ -20,7 +20,7 @@ public class UserDto {
         UserDto dto = new UserDto();
         dto.setId(user.getId());
         dto.setUsername(user.getUsername());
-        dto.setPassword(user.getPassword());
+        dto.setPassword("");
         dto.setUserType(user.getUserType());
         if(!CollectionUtils.isEmpty(user.getDevices()))
             dto.setDevices(user.getDevices().stream().map(EnergyDeviceDto::energyDeviceDtoFromEnergyDevice).collect(Collectors.toList()));

@@ -4,9 +4,11 @@ import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.sql.Time;
 import java.util.List;
 import java.util.Objects;
 
@@ -42,7 +44,7 @@ public class EnergyDevice {
 
     public Measurement createMeasurement(Double hourlyConsumption){
         long millis=System.currentTimeMillis();
-        return new Measurement(new Date(millis), hourlyConsumption, this);
+        return new Measurement(new Date(millis), new Time(millis), hourlyConsumption, this);
     }
 
     public boolean equals(Object o) {

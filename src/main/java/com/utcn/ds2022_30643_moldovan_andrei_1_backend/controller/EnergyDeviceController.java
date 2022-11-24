@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = {"*"})
 @RequestMapping(value = "/devices")
 @RequiredArgsConstructor
 public class EnergyDeviceController {
@@ -21,13 +21,23 @@ public class EnergyDeviceController {
     private final LogInService logInService;
 
     @GetMapping()
-    public List<EnergyDeviceDto> findDevices(){
-        return deviceService.findAll();
+    public List<EnergyDeviceDto> findDevices(@RequestHeader("token") String token){
+        Optional<LogIn> log = logInService.isLoggedIn(token);
+        if(log.isEmpty())
+            return null;
+        if(log.get().getUser().getUserType())
+            return deviceService.findAll();
+        return null;
     }
 
     @GetMapping(value = "/{id}")
-    public EnergyDeviceDto findDeviceById(@PathVariable("id") Integer id){
-        return deviceService.findById(id);
+    public EnergyDeviceDto findDeviceById(@PathVariable("id") Integer id, @RequestHeader("token") String token){
+        Optional<LogIn> log = logInService.isLoggedIn(token);
+        if(log.isEmpty())
+            return null;
+        if(log.get().getUser().getUserType() || !log.get().getUser().getDevices().stream().filter(value -> value.getId().equals(id)).toList().isEmpty())
+            return deviceService.findById(id);
+        return null;
     }
 
     @PostMapping()
@@ -69,6 +79,16 @@ public class EnergyDeviceController {
             return null;
         if(log.get().getUser().getUserType())
             return deviceService.addMeasurement(deviceService.findById(id), consumption);
+        return null;
+    }
+
+    @PostMapping("/{id}/add_measurement")
+    public MeasurementDto addMeasurement(@PathVariable("id") Integer id, @RequestBody MeasurementDto measurement, @RequestHeader("token") String token){
+        Optional<LogIn> log = logInService.isLoggedIn(token);
+        if(log.isEmpty())
+            return null;
+        if(log.get().getUser().getUserType())
+            return deviceService.addMeasurement(null, measurement);
         return null;
     }
 }

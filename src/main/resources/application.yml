@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/eongaz?allowPublicKeyRetrieval=true&useSSL=false
+    url: jdbc:mysql://mysql-container/eongaz?allowPublicKeyRetrieval=true&useSSL=false
     username: root
     password: root
 

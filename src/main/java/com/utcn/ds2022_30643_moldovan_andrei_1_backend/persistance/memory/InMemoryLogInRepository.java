@@ -11,6 +11,10 @@ public class InMemoryLogInRepository implements LogInRepository {
     private final Map<Integer, LogIn> data = new HashMap<>();
 
     @Override
+    public List<LogIn> findAll(){
+        return new ArrayList<>(data.values());
+    }
+    @Override
     public Optional<LogIn> findById(int id) {
         return Optional.ofNullable(data.get(id));
     }
@@ -18,6 +22,11 @@ public class InMemoryLogInRepository implements LogInRepository {
     @Override
     public Optional<LogIn> findByToken(String token) {
         return Optional.ofNullable(data.values().stream().filter(value -> value.getToken().equals(token)).toList().get(0));
+    }
+
+    @Override
+    public void removeById(LogIn log) {
+        data.remove(log.getId());
     }
 
     @Override

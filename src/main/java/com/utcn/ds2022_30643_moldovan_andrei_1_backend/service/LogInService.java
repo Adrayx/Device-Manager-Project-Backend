@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.Charset;
@@ -35,22 +36,34 @@ public class LogInService {
         if(users.size() == 0){
             return null;
         }
-        String baseToken = username + password + random() * 1000000000;
+        String baseToken = username + password;
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         byte[] hash = digest.digest(
-                baseToken.getBytes(StandardCharsets.UTF_16));
-        String dotToken = new String(hash);
+                baseToken.getBytes(StandardCharsets.UTF_8));
+
+        BigInteger numHash = new BigInteger(1, hash);
+        StringBuilder hexHash = new StringBuilder(numHash.toString(16));
+        while(hexHash.length() < 64)
+        {
+            hexHash.insert(0, "0");
+        }
+
+        String dotToken = hexHash.toString();
+        dotToken = dotToken + random();
+
         byte[] hashDot = digest.digest(
-                dotToken.getBytes(StandardCharsets.UTF_16));
-        baseToken = new String(hash, StandardCharsets.UTF_16);
-        dotToken = new String(hashDot, StandardCharsets.UTF_16);
+                dotToken.getBytes(StandardCharsets.UTF_8));
 
-        ByteBuffer bb = StandardCharsets.UTF_16.encode(CharBuffer.wrap(baseToken + "." + dotToken));
-        CharBuffer ascii = StandardCharsets.US_ASCII.decode(bb);
+        baseToken = hexHash.toString();
 
-        String tok = new String(ascii.array());
-        System.out.println(tok);
+        numHash = new BigInteger(1, hashDot);
+        hexHash = new StringBuilder(numHash.toString(16));
+        while(hexHash.length() < 64)
+        {
+            hexHash.insert(0, "0");
+        }
 
+        dotToken = hexHash.toString();
         String token = baseToken + "." + dotToken;
         return LogInDto.logInDtoFromLogIn(factory.createLogInRepository().save(new LogIn(token, users.get(0))));
     }

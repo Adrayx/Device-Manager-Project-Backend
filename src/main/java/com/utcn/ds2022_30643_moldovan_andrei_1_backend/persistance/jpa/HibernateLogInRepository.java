@@ -16,6 +16,14 @@ public class HibernateLogInRepository implements LogInRepository {
     private final EntityManager entityManager;
 
     @Override
+    public List<LogIn> findAll() {
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<LogIn> query = builder.createQuery(LogIn.class);
+        query.select(query.from(LogIn.class));
+        return entityManager.createQuery(query).getResultList();
+    }
+
+    @Override
     public Optional<LogIn> findById(int id) {
         return Optional.ofNullable(entityManager.find(LogIn.class, id));
     }
@@ -37,6 +45,11 @@ public class HibernateLogInRepository implements LogInRepository {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void removeById(LogIn log){
+        entityManager.remove(log);
     }
 
     @Override

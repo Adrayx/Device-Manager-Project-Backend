@@ -56,7 +56,7 @@ public class SeedCreator implements CommandLineRunner {
     private void createDevices(){
         EnergyDeviceRepository repository = factory.createEnergyDeviceRepository();
 
-        for(int i = 0; i < 40; i++){
+        for(int i = 0; i < 15; i++){
             EnergyDevice device = new EnergyDevice("description" + i, "address" + i, random() * 1000);
             repository.save(device);
         }
@@ -68,7 +68,7 @@ public class SeedCreator implements CommandLineRunner {
         List<EnergyDevice> deviceList = repositoryDevices.findAll();
 
         for (EnergyDevice device : deviceList) {
-            int rand = (int) (random() * 20);
+            int rand = 15;
             for (int j = 0; j < rand; j++) {
                 Double consumption = random() * 100;
                 measurementRepository.save(device.createMeasurement(consumption));
@@ -82,7 +82,7 @@ public class SeedCreator implements CommandLineRunner {
         int ind = 0;
         for(int i = 0; i < 5; i++) {
             User user = new User("username" + i, "password" + i, false);
-            int k = (int) (random() * 5);
+            int k = 2;
             for(int j = 0; j < k; j++){
                 EnergyDevice device = devices.get(ind++);
                 user.addDevice(device);

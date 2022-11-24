@@ -5,11 +5,13 @@ import lombok.Data;
 
 @Data
 public class LogInDto {
+    private Integer id;
     private String token;
     private Boolean role;
 
     public static LogInDto logInDtoFromLogIn(LogIn log){
         LogInDto dto = new LogInDto();
+        dto.setId(log.getUser().getId());
         dto.setToken(log.getToken());
         dto.setRole(log.getUser().getUserType());
 

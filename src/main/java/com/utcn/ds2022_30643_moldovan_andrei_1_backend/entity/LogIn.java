@@ -1,6 +1,8 @@
 package com.utcn.ds2022_30643_moldovan_andrei_1_backend.entity;
 
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
