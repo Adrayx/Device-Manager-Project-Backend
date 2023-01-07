@@ -22,7 +22,8 @@ COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /back_end/lib
 COPY --from=build ${DEPENDENCY}/META-INF /back_end/META-INF
 COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /back_end
 
-ENTRYPOINT ["java", "-cp", "back_end:back_end/lib/*", "com.utcn.ds2022_30643_moldovan_andrei_1_backend.Ds202230643MoldovanAndrei1BackendApplication", "CREATE_SEED"]
+ENTRYPOINT ["java", "-cp", "back_end:back_end/lib/*", "com.utcn.ds2022_30643_moldovan_andrei_1_backend.Ds202230643MoldovanAndrei1BackendApplication"]
 
 #docker run -it -p 8080:8080 spring-back-end /sh
 #winpty !!
+#, "CREATE_SEED"
